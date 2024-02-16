@@ -8,7 +8,7 @@ class User {
     this.password = password;
   }
 
-  static save() {
+  save() {
     return db.execute(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
       [this.name, this.email, this.password]
