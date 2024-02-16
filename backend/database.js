@@ -1,8 +1,8 @@
 const mysql = require("mysql2");
 
-const DB_NAME = "";
-const DB_USER = "";
-const DB_PASSWORD = "";
+const DB_NAME = "notes_db";
+const DB_USER = "root";
+const DB_PASSWORD = "root";
 
 const pool = mysql.createPool({
   host: "localhost",
