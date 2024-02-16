@@ -5,7 +5,7 @@ import {
   faClipboard,
   faClock,
 } from "@fortawesome/free-regular-svg-icons";
-import { faCheckDouble, faCircle, faCirclePlus} from "@fortawesome/free-solid-svg-icons";
+import { faCheckDouble, faCircle, faCirclePlus, faTag} from "@fortawesome/free-solid-svg-icons";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NoteBox from "../../Components/UI/NoteBox";
@@ -94,7 +94,7 @@ const MyNotes = () => {
                 </li>
               </ul>
               <div>
-                <h3>Tags for Priority</h3>
+                <h4 className={styles.tags_title}><FontAwesomeIcon icon={faTag}/> Tags</h4>
                 <ul>
                   <li>
                     <FontAwesomeIcon

@@ -57,6 +57,12 @@
     background-color: var(--lighter_bg);
 }
 
+.tags_title{
+    font-size: 20px;
+    color: rgba(240, 248, 255, 0.384);
+    margin-left: 5px;
+}
+
 .low_star{
     color: rgb(29, 197, 29);
 }

@@ -3,6 +3,9 @@ import styles from "./Auth.module.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import login_img from "../../assets/login.png";
+import axios from "axios";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +17,7 @@ const Login = () => {
     email: false,
     password: false,
   });
-
+  const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
@@ -41,7 +44,12 @@ const Login = () => {
   };
 
   const sendFormData = (data) => {
-    console.log(data);
+    try {
+      const response = axios.post(`http://localhost:4444/login`, data);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -76,10 +84,7 @@ const Login = () => {
       className={`${styles.container_all} d-flex justify-content-center align-items-center`}
     >
       <Row className={styles.landing}>
-        <Col
-          sm={6}
-          className={`${styles.left_container} d-flex justify-content-center align-items-center`}
-        >
+        <Col sm={6} className={styles.left_container}>
           <div className={styles.img_container}>
             <img src={login_img} alt="login img" />
           </div>
@@ -126,7 +131,7 @@ const Login = () => {
                   btnControl ? styles.submit_btn_diabled : ""
                 }`}
               >
-                Login
+                {loading ? <FontAwesomeIcon icon={faSpinner} /> : 'Login'}
               </button>
             </div>
           </form>

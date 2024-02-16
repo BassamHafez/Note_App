@@ -12,6 +12,9 @@
     border-right: 0.0625rem solid var(--border_color);
     padding: 0.625rem;
     border-radius: 0.625rem 0 0 0.625rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .right_container{
     border-radius: 0 0.625rem 0.625rem 0;
@@ -92,6 +95,6 @@
 
 @media screen and (max-width:576px) {
     .left_container{
-        display: none !important;
+        display:none !important;
     }
 }
