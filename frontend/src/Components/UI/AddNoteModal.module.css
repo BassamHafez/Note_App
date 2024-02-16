@@ -1,0 +1,13 @@
+.add_note_container{
+    backdrop-filter: blur(8px);
+    color: var(--main_font_color);
+}
+.add_note_header,.add_note_body{
+    background-color: var(--bg_color) !important;
+}
+.add_note_header{
+    border-bottom: 1px solid var(--border_color);
+}
+.add_note_body{
+    border-radius: 0 0 10px 10px;
+}

@@ -1,5 +1,63 @@
+@font-face {
+  font-family: "Nunito", sans-serif;
+  src: url('./fonts/Nunito-Black.ttf');
+  src: url('./fonts/Nunito-ExtraBold.ttf');
+  src: url('./fonts/Nunito-Bold.ttf');
+  src: url('./fonts/Nunito-SemiBold.ttf');
+  src: url('./fonts/Nunito-Medium.ttf');
+  src: url('./fonts/Nunito-Regular.ttf');
+  src: url('./fonts/Nunito-Light.ttf');
+  src: url('./fonts/Nunito-ExtraLight.ttf');
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  font-family: "Nunito", sans-serif;
+}
+body{
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: #060818 !important;
+}
+
+:root{
+  --main_color:#0ba5cc;
+  --border_color:rgba(216, 216, 216, 0.219);
+  --main_font: "Nunito", sans-serif;
+  --bg_color:#060818;
+  --main_font_color:rgb(212, 212, 212);
+  --lighter_bg:#161a33;
+  --darker_main_color:#03627a;
+}
+
+button{
+  border: none;
+  outline: none;
+}
+
+a{
+  text-decoration: none !important;
+}
+
+ul{
+  margin: 0;
+}
+ul li{
+  list-style: none !important;
+}
+input{
+  outline: none !important;
+}
+
+.modal-content{
+  background-color: transparent !important;
+  border: 1px solid rgb(1, 26, 58) !important;
+}
+@media screen and (max-width:768px) {
+  body{
+    font-size: 15px;
+  }
 }
