@@ -46,6 +46,12 @@ exports.createNote = async (req, res, next) => {
 
 exports.deleteNote = async (req, res, next) => {
   try {
+    const [notes] = await Note.findById(req.params.id, req.session.userId);
+
+    if (notes.length === 0) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
     const deleteResponse = await Note.deleteById(
       req.params.id,
       req.session.userId
