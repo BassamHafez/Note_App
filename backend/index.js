@@ -1,10 +1,14 @@
 const express = require("express");
 const session = require("express-session");
+const cors = require("cors");
 
 const noteController = require("./controllers/noteController");
 const userController = require("./controllers/userController");
 
 const app = express();
+
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json());
 app.use(
