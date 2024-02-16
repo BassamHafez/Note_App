@@ -6,7 +6,8 @@
     background-color: var(--bg_color) !important;
 }
 .add_note_header{
-    border-bottom: 1px solid var(--border_color);
+    border-bottom: 1px solid var(--border_color) !important
+    ;
 }
 .add_note_body{
     border-radius: 0 0 10px 10px;

@@ -73,7 +73,7 @@
     transition: all .4s;
 }
 .submit_btn_diabled{
-    opacity: .5;
+    opacity: .7;
 }
 .submit_btn:hover{
     scale: 1.05;
