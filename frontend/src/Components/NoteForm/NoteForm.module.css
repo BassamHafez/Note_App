@@ -12,11 +12,9 @@
 }
 
 .submit_btn{
-
     padding: 0.625rem 0.9375rem ;
     border-radius: 0.625rem;
     min-width: 150px;
-
     background-color: transparent;
     color: var(--main_color);
     border: 1px solid var(--main_color);

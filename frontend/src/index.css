@@ -14,7 +14,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
   font-family: "Nunito", sans-serif;
 }
 body{
@@ -24,13 +23,13 @@ body{
 }
 
 :root{
-  --main_color:#0ba5cc;
-  --border_color:rgba(216, 216, 216, 0.219);
+  --main_color:#407BFF;
+  --border_color:rgba(216, 216, 216, 0.123);
   --main_font: "Nunito", sans-serif;
   --bg_color:#060818;
   --main_font_color:rgb(212, 212, 212);
   --lighter_bg:#161a33;
-  --darker_main_color:#03627a;
+  --darker_main_color:#058aab;
 }
 
 button{

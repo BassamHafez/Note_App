@@ -10,7 +10,7 @@
     border-right: 1px solid var(--border_color);
 }
 .add_btn,.log_out_btn{
-    background-color: var(--darker_main_color);
+    background-color: var(--main_color);
     border-radius: 5px;
     padding: 10px 15px;
     margin: 20px 0;
@@ -29,7 +29,7 @@
     color: var(--main_color);
 }
 .log_out_btn:hover{
-    background-color:var(--darker_main_color);
+    background-color:var(--main_color);
     border-radius: 5px;
     color: var(--main_font_color);
 }
@@ -55,4 +55,14 @@
 }
 .active_link{
     background-color: var(--lighter_bg);
+}
+
+.low_star{
+    color: rgb(29, 197, 29);
+}
+.medium_star{
+    color: rgb(249, 110, 59);
+}
+.high_star{
+    color: red;
 }
