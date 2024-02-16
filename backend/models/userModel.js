@@ -1,17 +1,18 @@
 const db = require("../database");
 
 class User {
-  constructor(id, email, password) {
+  constructor(id, name, email, password) {
     this.id = id;
+    this.name = name;
     this.email = email;
     this.password = password;
   }
 
   save() {
-    return db.execute("INSERT INTO users (email, password) VALUES (?, ?)", [
-      this.email,
-      this.password,
-    ]);
+    return db.execute(
+      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+      [this.name, this.email, this.password]
+    );
   }
 
   static findByEmail(email) {

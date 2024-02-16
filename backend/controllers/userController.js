@@ -7,7 +7,12 @@ exports.signup = async (req, res, next) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    const user = new User(null, req.body.email, req.body.password);
+    const user = new User(
+      null,
+      req.body.name,
+      req.body.email,
+      req.body.password
+    );
     await user.save();
     res.json({ message: "User created" });
   } catch (err) {

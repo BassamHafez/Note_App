@@ -4,6 +4,7 @@ import Root from "./Pages/Root";
 import MyNotes from "./Pages/MyNotes/MyNotes";
 import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
+import NotFound from "./Components/Error/NotFound";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,7 @@ function App() {
         { index: true, element: <MyNotes /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
+        { path: "*", element: <NotFound /> },
       ],
     },
   ]);

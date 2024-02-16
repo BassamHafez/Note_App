@@ -46,6 +46,12 @@ exports.createNote = async (req, res, next) => {
 
 exports.deleteNote = async (req, res, next) => {
   try {
+    const [notes] = await Note.findById(req.params.id, req.session.userId);
+
+    if (notes.length === 0) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
     const deleteResponse = await Note.deleteById(
       req.params.id,
       req.session.userId
@@ -59,7 +65,13 @@ exports.deleteNote = async (req, res, next) => {
 
 exports.updateNote = async (req, res, next) => {
   try {
-    const updateResponse = await Note.update(
+    const [notes] = await Note.findById(req.params.id, req.session.userId);
+
+    if (notes.length === 0) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    await Note.update(
       req.body.title,
       req.body.body,
       req.body.priority,
