@@ -6,8 +6,22 @@
     background-color: var(--bg_color) !important;
 }
 .add_note_header{
-    border-bottom: 1px solid var(--border_color) !important
-    ;
+    border-bottom: 1px solid var(--border_color) !important;
+    position: relative;
+    color: var(--main_color);
+}
+.close_icon{
+    font-size: 18px;
+    position: absolute;
+    right:25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(215, 215, 215);
+    cursor: pointer;
+    transition: color .3s;
+}
+.close_icon:hover{
+    color: var(--main_color);
 }
 .add_note_body{
     border-radius: 0 0 10px 10px;

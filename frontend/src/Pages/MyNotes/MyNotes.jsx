@@ -17,25 +17,25 @@ const MyNotes = () => {
 
   const notes = [
     {
-      key: "1",
+      id: "1",
       title: "Clean The Room",
       desc: "clean my room fast within day to prepare for school",
       priority:"medium"
     },
     {
-      key: "2",
+      id: "2",
       title: "Meeting With Ammar",
       desc: "discuss the school project with Ammar collecting informations ",
       priority:"low"
     },
     {
-      key: "3",
+      id: "3",
       title: "Finish My Project",
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
       priority:"high"
     },
     {
-      key: "4",
+      id: "4",
       title: "Play Football",
       desc: "play football sunday at 11 pm with my friends in the street",
       priority:"medium"
@@ -126,7 +126,7 @@ const MyNotes = () => {
           <Col sm={8} lg={9} xl={10}>
             <Row className={styles.note_container}>
               {notes.map((note) => (
-                <NoteBox key={note.key} title={note.title} desc={note.desc} priority={note.priority} />
+                <NoteBox key={note.id} id={note.id} title={note.title} desc={note.desc} priority={note.priority} />
               ))}
             </Row>
           </Col>

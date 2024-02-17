@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styles from "./NoteForm.module.css";
 
-const NoteForm = () => {
+const UpdateNoteForm = ({ currenTitle, currentDesc, level, id }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    desc: "",
-    priority: "low",
+    title: currenTitle,
+    body: currentDesc,
+    priority: level,
   });
 
   const handleChange = (e) => {
@@ -14,7 +14,7 @@ const NoteForm = () => {
   };
 
   const sendFormData = (data) => {
-    console.log(data)
+    console.log(data);
   };
 
   const handleSubmit = (e) => {
@@ -36,27 +36,48 @@ const NoteForm = () => {
       </div>
       <div className={styles.input_field}>
         <textarea
-          name="desc"
-          id="desc"
-          placeholder="description"
-          value={formData.desc}
+          name="body"
+          id="body"
+          placeholder="body"
+          value={formData.body}
           onChange={handleChange}
           rows={5}
         />
       </div>
       <div className="d-flex justify-content-evenly align-items-center my-4">
         <div className={styles.select_item}>
-          <input type="radio" id="low" name="priority" value="low" onChange={handleChange}/>
+          <input
+            type="radio"
+            id="low"
+            name="priority"
+            value="low"
+            onChange={handleChange}
+            checked={formData.priority === "low"}
+          />
           <label htmlFor="low">low</label>
         </div>
 
         <div className={styles.select_item}>
-          <input type="radio" id="medium" name="priority" value="medium" onChange={handleChange}/>
+          <input
+            type="radio"
+            id="medium"
+            name="priority"
+            value="medium"
+            onChange={handleChange}
+            checked={formData.priority === "medium"}
+          />
           <label htmlFor="medium">medium</label>
         </div>
 
         <div className={styles.select_item}>
-          <input type="radio" id="high" name="priority" value="high" onChange={handleChange}/>
+          <input
+            type="radio"
+            id="high"
+            name="priority"
+            value="high"
+            onChange={handleChange}
+            checked={formData.priority === "high"}
+          />
           <label htmlFor="high">high</label>
         </div>
       </div>
@@ -69,4 +90,4 @@ const NoteForm = () => {
   );
 };
 
-export default NoteForm;
+export default UpdateNoteForm;
