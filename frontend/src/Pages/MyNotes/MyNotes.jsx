@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import styles from "./MyNotes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NoteBox from "../../Components/UI/NoteBox";
 import AddNoteModal from "../../Components/UI/AddNoteModal";
+import axios from "axios";
 
 const MyNotes = () => {
   const [activeLink, setActiveLink] = useState("all");
@@ -42,9 +43,34 @@ const MyNotes = () => {
     },
   ];
 
+
   const handleItemClick = (type) => {
     setActiveLink(type);
   };
+
+  useEffect(()=>{
+    const getAllNotes=async()=>{
+      try{
+        const response=await axios.get(`http://localhost:4444/notes`)
+        console.log(response)
+      }
+      catch(error){
+        console.error(error)
+      }
+    }
+    getAllNotes();
+  },[])
+
+
+  const logoutHandler=async()=>{
+    try{
+      const response=await axios.get(`http://localhost:4444/logout`)
+      console.log(response)
+    }
+    catch(error){
+      console.error(error)
+    }
+  }
 
   return (
     <>
@@ -120,7 +146,7 @@ const MyNotes = () => {
                 </ul>
               </div>
 
-              <button className={styles.log_out_btn}>Log Out</button>
+              <button onClick={logoutHandler} className={styles.log_out_btn}>Log Out</button>
             </aside>
           </Col>
           <Col sm={8} lg={9} xl={10}>

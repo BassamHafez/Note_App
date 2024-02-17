@@ -49,10 +49,10 @@ const Register = () => {
     return emailRegex.test(email);
   };
 
-  const sendFormData = (data) => {
+  const sendFormData = async(data) => {
     setLoading(true)
     try {
-      const response = axios.post(`http://localhost:4444/signup`, data);
+      const response = await axios.post(`http://localhost:4444/signup`, data);
       console.log(response);
     } catch (error) {
       console.error(error);

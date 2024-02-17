@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./NoteForm.module.css";
+import axios from "axios";
 
 const NoteForm = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,14 @@ const NoteForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const sendFormData = (data) => {
-    console.log(data)
+  const sendFormData = async(data) => {
+    try{
+      const response=await axios.post(`http://localhost:4444/notes`,data)
+      console.log(response)
+    }
+    catch(error){
+      console.error(error)
+    }
   };
 
   const handleSubmit = (e) => {

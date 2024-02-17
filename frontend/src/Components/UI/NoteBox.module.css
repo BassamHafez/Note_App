@@ -1,11 +1,13 @@
 .note_box{
     margin-bottom: 30px;
-    background-color: rgb(31, 37, 46);
+    background-color: rgb(32, 31, 46);
     padding: 30px;
     border-radius: 10px;
     color:var(--main_font_color);
     min-height: 220px;
     position: relative;
+    letter-spacing: 0.0313rem;
+    line-height: 1.5;
 }
 .note_box h2{
     font-size: 20px;
