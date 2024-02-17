@@ -33,20 +33,7 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    req.session.userId = user.id;
-
-    res.json({ message: "Logged in", user });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error", error: err });
-  }
-};
-
-exports.logout = async (req, res, next) => {
-  try {
-    req.session.destroy();
-
-    res.json({ message: "Logged out" });
+    res.json({ message: "Logged in", userId: user.id });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error", error: err });
