@@ -6,6 +6,7 @@ import register_img from "../../assets/register.png";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -152,6 +153,9 @@ const Register = () => {
                 Password should contain at least one capital letter and one
                 number
               </span>
+            </div>
+            <div className="w-100 text-end my-1">
+              <span className={styles.caption}>Already have an account? <Link to={"/login"} className="main_color">sign in</Link></span>
             </div>
             <div className="text-center mt-4">
               <button

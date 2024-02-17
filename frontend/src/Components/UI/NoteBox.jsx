@@ -5,10 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import UpdateNoteModal from "./UpdateNoteModal";
-import  axios  from 'axios';
+import ConfirmModal from "./ConfirmModal";
 
-const NoteBox = ({ title, desc, priority,id }) => {
+const NoteBox = ({ title, desc, priority, id }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [confirmShow, setConfirmShow] = useState(false);
 
   let circleColor = "low";
 
@@ -27,17 +28,6 @@ const NoteBox = ({ title, desc, priority,id }) => {
       break;
   }
 
-  const deleteNote=async()=>{
-    try{
-      const response=await axios.delete(`http://localhost:4444/notes/:${id}`)
-      console.log(response)
-    }
-    catch(error){
-      console.error(error)
-    }
-
-  }
-
   return (
     <>
       <Col lg={6} xl={4}>
@@ -51,7 +41,7 @@ const NoteBox = ({ title, desc, priority,id }) => {
             className={`${styles.box_footer} d-flex justify-content-between w-100 align-items-center px-2`}
           >
             <FontAwesomeIcon
-              onClick={deleteNote}
+              onClick={() => setConfirmShow(true)}
               title="delete"
               className={styles.delete_icon}
               icon={faTrashCan}
@@ -72,6 +62,14 @@ const NoteBox = ({ title, desc, priority,id }) => {
         desc={desc}
         priority={priority}
         id={id}
+      />
+
+      <ConfirmModal
+        show={confirmShow}
+        onHide={() => setConfirmShow(false)}
+        type="delete"
+        id={id}
+        msg="Are You Sure You Want To Delete This Note !"
       />
     </>
   );

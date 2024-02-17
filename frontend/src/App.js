@@ -5,6 +5,7 @@ import MyNotes from "./Pages/MyNotes/MyNotes";
 import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
 import NotFound from "./Components/Error/NotFound";
+import ContextProvider from "./Context/MyContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,9 +22,9 @@ function App() {
   ]);
 
   return (
-    <div className="App">
+    <ContextProvider>
       <RouterProvider router={router}></RouterProvider>
-    </div>
+    </ContextProvider>
   );
 }
 

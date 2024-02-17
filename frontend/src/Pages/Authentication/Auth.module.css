@@ -3,6 +3,7 @@
     width: 100vw;
     background-color: var(--bg_color);
     padding-inline: 1.25rem;
+    letter-spacing: 0.0313rem;
 }
 .landing{
     min-width: 90%;
@@ -91,7 +92,10 @@
 .img_container_register{
     width: 31.25rem;
 }
+.caption{
+    font-size: 14px;
 
+}
 
 @media screen and (max-width:576px) {
     .left_container{

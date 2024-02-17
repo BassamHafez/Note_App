@@ -1,79 +1,98 @@
-import React, {useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./MyNotes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard, faClock } from "@fortawesome/free-regular-svg-icons";
 import {
-  faClipboard,
-  faClock,
-} from "@fortawesome/free-regular-svg-icons";
-import { faCheckDouble, faCircle, faCirclePlus, faTag} from "@fortawesome/free-solid-svg-icons";
+  faCheckDouble,
+  faCircle,
+  faCirclePlus,
+  faTag,
+} from "@fortawesome/free-solid-svg-icons";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NoteBox from "../../Components/UI/NoteBox";
 import AddNoteModal from "../../Components/UI/AddNoteModal";
 import axios from "axios";
+import ConfirmModal from "../../Components/UI/ConfirmModal";
+import { myContext } from "../../Context/MyContext";
+import { useNavigate } from "react-router-dom";
+import LoadingPage from "../../Components/UI/LoadingPage";
 
 const MyNotes = () => {
   const [activeLink, setActiveLink] = useState("all");
   const [modalShow, setModalShow] = useState(false);
+  const [confirmShow, setConfirmShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { isLogin } = useContext(myContext);
+  const naviagte = useNavigate();
 
   const notes = [
     {
       id: "1",
       title: "Clean The Room",
       desc: "clean my room fast within day to prepare for school",
-      priority:"medium"
+      priority: "medium",
     },
     {
       id: "2",
       title: "Meeting With Ammar",
       desc: "discuss the school project with Ammar collecting informations ",
-      priority:"low"
+      priority: "low",
     },
     {
       id: "3",
       title: "Finish My Project",
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
-      priority:"high"
+      priority: "high",
     },
     {
       id: "4",
       title: "Play Football",
       desc: "play football sunday at 11 pm with my friends in the street",
-      priority:"medium"
+      priority: "medium",
     },
   ];
-
 
   const handleItemClick = (type) => {
     setActiveLink(type);
   };
 
-  useEffect(()=>{
-    const getAllNotes=async()=>{
-      try{
-        const response=await axios.get(`http://localhost:4444/notes`)
-        console.log(response)
-      }
-      catch(error){
-        console.error(error)
-      }
+  const handlePriorityFunction = async (level) => {
+    handleItemClick(level);
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:4444/notes?priority=${level}`
+      );
+      console.log(response);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
     }
-    getAllNotes();
-  },[])
+  };
 
-
-  const logoutHandler=async()=>{
-    try{
-      const response=await axios.get(`http://localhost:4444/logout`)
-      console.log(response)
-    }
-    catch(error){
-      console.error(error)
-    }
-  }
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     const getAllNotes = async () => {
+  //       setLoading(true);
+  //       try {
+  //         const response = await axios.get(`http://localhost:4444/notes`);
+  //         console.log(response);
+  //         setLoading(false);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //     getAllNotes();
+  //   } else {
+  //     naviagte("/login");
+  //   }
+  // }, [isLogin, naviagte]);
 
   return (
     <>
+      {loading && <LoadingPage />}
       <div className={styles.my_notes_container}>
         <Row>
           <Col sm={4} lg={3} xl={2}>
@@ -120,23 +139,34 @@ const MyNotes = () => {
                 </li>
               </ul>
               <div>
-                <h4 className={styles.tags_title}><FontAwesomeIcon icon={faTag}/> Tags</h4>
+                <h4 className={styles.tags_title}>
+                  <FontAwesomeIcon icon={faTag} /> Tags
+                </h4>
                 <ul>
-                  <li>
+                  <li
+                    className={activeLink === "low" ? styles.active_link : ""}
+                    onClick={() => handlePriorityFunction("low")}
+                  >
                     <FontAwesomeIcon
                       icon={faCircle}
                       className={styles.low_star}
                     />{" "}
                     Low Priority
                   </li>
-                  <li>
+                  <li
+                    className={activeLink === "med" ? styles.active_link : ""}
+                    onClick={() => handlePriorityFunction("med")}
+                  >
                     <FontAwesomeIcon
                       icon={faCircle}
                       className={styles.medium_star}
                     />{" "}
                     Med Priority
                   </li>
-                  <li>
+                  <li
+                    className={activeLink === "high" ? styles.active_link : ""}
+                    onClick={() => handlePriorityFunction("high")}
+                  >
                     <FontAwesomeIcon
                       icon={faCircle}
                       className={styles.high_star}
@@ -146,19 +176,36 @@ const MyNotes = () => {
                 </ul>
               </div>
 
-              <button onClick={logoutHandler} className={styles.log_out_btn}>Log Out</button>
+              <button
+                onClick={() => setConfirmShow(true)}
+                className={styles.log_out_btn}
+              >
+                Log Out
+              </button>
             </aside>
           </Col>
           <Col sm={8} lg={9} xl={10}>
             <Row className={styles.note_container}>
               {notes.map((note) => (
-                <NoteBox key={note.id} id={note.id} title={note.title} desc={note.desc} priority={note.priority} />
+                <NoteBox
+                  key={note.id}
+                  id={note.id}
+                  title={note.title}
+                  desc={note.desc}
+                  priority={note.priority}
+                />
               ))}
             </Row>
           </Col>
         </Row>
       </div>
       <AddNoteModal show={modalShow} onHide={() => setModalShow(false)} />
+      <ConfirmModal
+        show={confirmShow}
+        onHide={() => setConfirmShow(false)}
+        type="logout"
+        msg="Are You Sure That You Want To Logout !"
+      />
     </>
   );
 };

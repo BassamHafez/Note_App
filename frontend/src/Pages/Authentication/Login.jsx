@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./Auth.module.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,8 +7,13 @@ import axios from "axios";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Link, useNavigate} from "react-router-dom"
+import { myContext } from "../../Context/MyContext";
 
 const Login = () => {
+
+  let {setIsLoginHandler}=useContext(myContext);
+  const navigate=useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,6 +26,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +50,7 @@ const Login = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-const navigate=useNavigate();
+
 
   const sendFormData = async (data) => {
     setLoading(true)
@@ -53,6 +60,7 @@ const navigate=useNavigate();
     } catch (error) {
       console.error(error);
     }
+    setIsLoginHandler(true)
     setLoading(false)
     navigate("/")
   };
@@ -128,6 +136,9 @@ const navigate=useNavigate();
                 number
               </span>
             </div>
+            <div className="w-100 text-end my-1">
+              <span className={styles.caption}>Don't have an account? <Link to={"/register"} className="main_color">sign up</Link></span>
+            </div>
             <div className="text-center mt-4">
               <button
                 disabled={btnControl}
@@ -140,7 +151,6 @@ const navigate=useNavigate();
               </button>
             </div>
           </form>
-          <span>don't have an account? <Link to={"/register"} className="main_color">sign up</Link></span>
         </Col>
       </Row>
     </div>

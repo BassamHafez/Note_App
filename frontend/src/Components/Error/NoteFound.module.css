@@ -1,0 +1,21 @@
+.not_found_page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+.not_found_page img{
+    width: 440px;
+}
+.not_found_page span{
+    color: var(--main_font_color);
+}
+.not_found_page span button{
+    background-color: var(--main_color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+}

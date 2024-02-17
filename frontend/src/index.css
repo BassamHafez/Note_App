@@ -27,7 +27,7 @@ body{
   --border_color:rgba(216, 216, 216, 0.123);
   --main_font: "Nunito", sans-serif;
   --bg_color:#060818;
-  --main_font_color:rgb(212, 212, 212);
+  --main_font_color:rgb(192, 192, 192);
   --lighter_bg:#161a33;
   --darker_main_color:#058aab;
 }
@@ -49,6 +49,9 @@ ul li{
 }
 input,textarea{
   outline: none !important;
+}
+.main_color{
+  color:var(--main_color) !important
 }
 
 .modal-content{

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from "./AddNoteModal.module.css";
 import Modal from 'react-bootstrap/Modal';
 import NoteForm from '../NoteForm/NoteForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import FloatingResponse from './FloatingResponse';
 
 const AddNoteModal = (props) => {
+
+  const [showResponse, setShowResponse] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({
+    title: "",
+    content: "",
+  });
+  const [successResponse, setSuccessResponse] = useState(true);
+
   return (
-    <Modal
+    <>
+        <Modal
     {...props}
     size="md"
     aria-labelledby="contained-modal-title-vcenter"
@@ -21,9 +31,22 @@ const AddNoteModal = (props) => {
       </Modal.Title>
     </Modal.Header>
     <Modal.Body className={styles.add_note_body}>
-        <NoteForm/>
+        <NoteForm
+           onHide={props.onHide}
+           setResponseMessage={setResponseMessage}
+           setSuccessResponse={setSuccessResponse}
+           setShowResponse={setShowResponse}
+        />
     </Modal.Body>
   </Modal>
+    <FloatingResponse
+        showResponse={showResponse}
+        setShowResponse={setShowResponse}
+        message={responseMessage}
+        success={successResponse}
+      />
+    </>
+
   )
 }
 
