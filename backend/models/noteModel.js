@@ -16,7 +16,14 @@ class Note {
     );
   }
 
-  static fetchAll(user_id) {
+  static fetchAll(user_id, priority = null) {
+    if (priority) {
+      return db.execute(
+        "SELECT * FROM notes WHERE user_id = ? AND priority = ?",
+        [user_id, priority]
+      );
+    }
+
     return db.execute("SELECT * FROM notes WHERE user_id = ?", [user_id]);
   }
 

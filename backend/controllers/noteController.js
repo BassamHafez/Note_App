@@ -2,7 +2,7 @@ const Note = require("../models/noteModel");
 
 exports.getAllNotes = async (req, res, next) => {
   try {
-    const [notes] = await Note.fetchAll(req.session.userId);
+    const [notes] = await Note.fetchAll(req.session.userId, req.query.priority);
 
     res.json({ count: notes.length, notes });
   } catch (err) {
