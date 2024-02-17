@@ -1,8 +1,5 @@
 const mysql = require("mysql2");
-
-const DB_NAME = "notes_db";
-const DB_USER = "root";
-const DB_PASSWORD = "";
+const { DB_NAME, DB_USER, DB_PASSWORD } = require("./config");
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -18,7 +15,7 @@ pool.query(
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL ) ;
    `
-)
+);
 
 pool.query(
   ` CREATE TABLE if not exists  notes (
@@ -28,6 +25,6 @@ pool.query(
    priority ENUM('low', 'med', 'high') NOT NULL,
    user_id INT,
    FOREIGN KEY (user_id) REFERENCES users(id) ) ;`
- ) ;
+);
 
 module.exports = pool.promise();

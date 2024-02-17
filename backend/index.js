@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const noteController = require("./controllers/noteController");
 const userController = require("./controllers/userController");
+const { SESSION_SECRET } = require("./config");
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.options("*", cors());
 app.use(express.json());
 app.use(
   session({
-    secret: "my-secret",
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
