@@ -6,6 +6,7 @@ import login_img from "../../assets/login.png";
 import axios from "axios";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Link, useNavigate} from "react-router-dom"
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -42,14 +43,18 @@ const Login = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+const navigate=useNavigate();
 
-  const sendFormData = (data) => {
+  const sendFormData = async (data) => {
+    setLoading(true)
     try {
-      const response = axios.post(`http://localhost:4444/login`, data);
+      const response = await axios.post(`http://localhost:4444/login`, data);
       console.log(response);
     } catch (error) {
       console.error(error);
     }
+    setLoading(false)
+    navigate("/")
   };
 
   const handleSubmit = (e) => {
@@ -135,6 +140,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+          <span>don't have an account? <Link to={"/register"} className="main_color">sign up</Link></span>
         </Col>
       </Row>
     </div>

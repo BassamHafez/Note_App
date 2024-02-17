@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./NoteForm.module.css";
+import axios from "axios";
 
 const UpdateNoteForm = ({ currenTitle, currentDesc, level, id }) => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,14 @@ const UpdateNoteForm = ({ currenTitle, currentDesc, level, id }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const sendFormData = (data) => {
-    console.log(data);
+  const sendFormData = async(data) => {
+    try{
+      const response=await axios.put(`http://localhost:4444/notes/:${id}`,data)
+      console.log(response)
+    }
+    catch(error){
+      console.error(error)
+    }
   };
 
   const handleSubmit = (e) => {
@@ -83,7 +90,7 @@ const UpdateNoteForm = ({ currenTitle, currentDesc, level, id }) => {
       </div>
       <div className="text-end mt-4">
         <button type="submit" className={styles.submit_btn}>
-          Add Now
+          Update Now
         </button>
       </div>
     </form>
