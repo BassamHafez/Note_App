@@ -2,7 +2,7 @@ const Note = require("../models/noteModel");
 
 exports.getAllNotes = async (req, res, next) => {
   try {
-    const [notes] = await Note.fetchAll(req.body.userId, req.query.priority);
+    const [notes] = await Note.fetchAll(req.headers.userid, req.query.priority);
 
     res.json({ count: notes.length, notes });
   } catch (err) {
@@ -13,7 +13,7 @@ exports.getAllNotes = async (req, res, next) => {
 
 exports.getNoteById = async (req, res, next) => {
   try {
-    const [notes] = await Note.findById(req.params.id, req.body.userId);
+    const [notes] = await Note.findById(req.params.id, req.headers.userid);
 
     if (notes.length === 0) {
       return res.status(404).json({ message: "Note not found" });
@@ -33,7 +33,7 @@ exports.createNote = async (req, res, next) => {
       req.body.title,
       req.body.body,
       req.body.priority,
-      req.body.userId
+      req.headers.userid
     );
 
     await note.save();
@@ -46,7 +46,7 @@ exports.createNote = async (req, res, next) => {
 
 exports.deleteNote = async (req, res, next) => {
   try {
-    const [notes] = await Note.findById(req.params.id, req.body.userId);
+    const [notes] = await Note.findById(req.params.id, req.headers.userid);
 
     if (notes.length === 0) {
       return res.status(404).json({ message: "Note not found" });
@@ -54,7 +54,7 @@ exports.deleteNote = async (req, res, next) => {
 
     const deleteResponse = await Note.deleteById(
       req.params.id,
-      req.body.userId
+      req.headers.userid
     );
     res.status(204).json(deleteResponse);
   } catch (err) {
@@ -65,7 +65,7 @@ exports.deleteNote = async (req, res, next) => {
 
 exports.updateNote = async (req, res, next) => {
   try {
-    const [notes] = await Note.findById(req.params.id, req.body.userId);
+    const [notes] = await Note.findById(req.params.id, req.headers.userid);
 
     if (notes.length === 0) {
       return res.status(404).json({ message: "Note not found" });
@@ -76,7 +76,7 @@ exports.updateNote = async (req, res, next) => {
       req.body.body,
       req.body.priority,
       req.params.id,
-      req.body.userId
+      req.headers.userid
     );
 
     res.status(200).json({ message: "Note updated" });

@@ -15,7 +15,7 @@ app.post("/signup", userController.signup);
 app.post("/login", userController.login);
 
 app.use((req, res, next) => {
-  if (!req.body.userId) {
+  if (!req.headers.userid) {
     return res.status(401).json({ message: "Provide the user ID" });
   }
 
