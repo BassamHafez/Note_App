@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styles from "./AddNoteModal.module.css";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { myContext } from "../../Context/MyContext";
 import FloatingResponse from "./FloatingResponse";
 
 const ConfirmModal = ({ show, onHide, msg, type, id }) => {
@@ -15,38 +14,41 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
   const [successResponse, setSuccessResponse] = useState(true);
 
   const navigate = useNavigate();
-  let { setIsLoginHandler } = useContext(myContext);
+  const userId = localStorage.getItem("userID");
 
   const logoutHandler = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4444/logout`);
-      console.log(response);
-      setIsLoginHandler(false);
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
+    localStorage.removeItem("userId");
+    navigate("/login");
   };
-
   const deleteNote = async () => {
-    try {
-      const response = await axios.delete(`http://localhost:4444/notes/:${id}`);
-      console.log(response);
-      setResponseMessage({
-        title: "Deleted Successfully",
-        content: "Your Note has been Deleted Successfully",
-      });
-      setSuccessResponse(true);
-      setShowResponse(true);
-      onHide();
-    } catch (error) {
-      setResponseMessage({
-        title: "Delete Note Faild",
-        content: "Your Note faild to be Deleted please try again",
-      });
-      setSuccessResponse(false);
-      setShowResponse(true);
-      onHide(); 
+    if (userId) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:4444/notes/:${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              userId: userId,
+            },
+          }
+        );
+        console.log(response);
+        setResponseMessage({
+          title: "Deleted Successfully",
+          content: "Your Note has been Deleted Successfully",
+        });
+        setSuccessResponse(true);
+        setShowResponse(true);
+        onHide();
+      } catch (error) {
+        setResponseMessage({
+          title: "Delete Note Faild",
+          content: "Your Note faild to be Deleted please try again",
+        });
+        setSuccessResponse(false);
+        setShowResponse(true);
+        onHide();
+      }
     }
   };
 

@@ -13,7 +13,6 @@ const UpdateNoteModal = ({ show, onHide, title, desc, priority, id }) => {
     content: "",
   });
   const [successResponse, setSuccessResponse] = useState(true);
-
   return (
     <>
       <Modal

@@ -14,13 +14,14 @@ const UpdateNoteForm = ({
   setSuccessResponse,
   setShowResponse,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const userId = localStorage.getItem("userID");
+
   const [formData, setFormData] = useState({
     title: currenTitle,
     body: currentDesc,
     priority: level,
   });
-
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,13 @@ const UpdateNoteForm = ({
     try {
       const response = await axios.put(
         `http://localhost:4444/notes/:${id}`,
-        data
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            userId: userId,
+          },
+        }
       );
       console.log(response);
       setLoading(false);

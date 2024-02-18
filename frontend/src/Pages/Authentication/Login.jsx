@@ -11,7 +11,7 @@ import { myContext } from "../../Context/MyContext";
 
 const Login = () => {
 
-  let {setIsLoginHandler}=useContext(myContext);
+  let {setUserIdHandler}=useContext(myContext);
   const navigate=useNavigate();
 
   const [formData, setFormData] = useState({
@@ -55,12 +55,20 @@ const Login = () => {
   const sendFormData = async (data) => {
     setLoading(true)
     try {
+      console.log(data)
       const response = await axios.post(`http://localhost:4444/login`, data);
       console.log(response);
+      if(response.data.message==="Logged in"){
+        localStorage.setItem("userID",response.data.userId);
+        setUserIdHandler(response.data.userId);
+      }
+      else{
+        alert("something went wrong please try again")
+      }
+
     } catch (error) {
       console.error(error);
     }
-    setIsLoginHandler(true)
     setLoading(false)
     navigate("/")
   };

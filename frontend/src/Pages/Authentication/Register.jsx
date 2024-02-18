@@ -6,7 +6,7 @@ import register_img from "../../assets/register.png";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const navigate=useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +56,9 @@ const Register = () => {
     try {
       const response = await axios.post(`http://localhost:4444/signup`, data);
       console.log(response);
+      if(response.status===200){
+        navigate("/login")
+      }
     } catch (error) {
       console.error(error);
     }

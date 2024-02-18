@@ -17,7 +17,7 @@ const AddNoteModal = (props) => {
 
   return (
     <>
-        <Modal
+    <Modal
     {...props}
     size="md"
     aria-labelledby="contained-modal-title-vcenter"

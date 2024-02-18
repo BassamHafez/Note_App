@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MyNotes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClock } from "@fortawesome/free-regular-svg-icons";
@@ -14,45 +14,45 @@ import NoteBox from "../../Components/UI/NoteBox";
 import AddNoteModal from "../../Components/UI/AddNoteModal";
 import axios from "axios";
 import ConfirmModal from "../../Components/UI/ConfirmModal";
-import { myContext } from "../../Context/MyContext";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../Components/UI/LoadingPage";
 
 const MyNotes = () => {
+  const [myNotes, setMyNotes] = useState([]);
   const [activeLink, setActiveLink] = useState("all");
   const [modalShow, setModalShow] = useState(false);
   const [confirmShow, setConfirmShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { isLogin } = useContext(myContext);
+  const userId = localStorage.getItem("userID");
   const naviagte = useNavigate();
 
-  const notes = [
-    {
-      id: "1",
-      title: "Clean The Room",
-      desc: "clean my room fast within day to prepare for school",
-      priority: "medium",
-    },
-    {
-      id: "2",
-      title: "Meeting With Ammar",
-      desc: "discuss the school project with Ammar collecting informations ",
-      priority: "low",
-    },
-    {
-      id: "3",
-      title: "Finish My Project",
-      desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
-      priority: "high",
-    },
-    {
-      id: "4",
-      title: "Play Football",
-      desc: "play football sunday at 11 pm with my friends in the street",
-      priority: "medium",
-    },
-  ];
+  // const notes = [
+  //   {
+  //     id: "1",
+  //     title: "Clean The Room",
+  //     desc: "clean my room fast within day to prepare for school",
+  //     priority: "medium",
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "Meeting With Ammar",
+  //     desc: "discuss the school project with Ammar collecting informations ",
+  //     priority: "low",
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "Finish My Project",
+  //     desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
+  //     priority: "high",
+  //   },
+  //   {
+  //     id: "4",
+  //     title: "Play Football",
+  //     desc: "play football sunday at 11 pm with my friends in the street",
+  //     priority: "medium",
+  //   },
+  // ];
 
   const handleItemClick = (type) => {
     setActiveLink(type);
@@ -61,34 +61,58 @@ const MyNotes = () => {
   const handlePriorityFunction = async (level) => {
     handleItemClick(level);
     setLoading(true);
-    try {
-      const response = await axios.get(
-        `http://localhost:4444/notes?priority=${level}`
-      );
-      console.log(response);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
+    if (level === "all") {
+      try {
+        const response = await axios.get(`http://localhost:4444/notes`, {
+          headers: { 
+            "Content-Type":"application/json",
+            userId: userId },
+        });
+        setMyNotes(response.data.notes);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:4444/notes?priority=${level}`,
+          {
+            headers: { 
+              "Content-Type":"application/json",
+              userId: userId },
+          }
+        );
+        setMyNotes(response.data.notes);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     const getAllNotes = async () => {
-  //       setLoading(true);
-  //       try {
-  //         const response = await axios.get(`http://localhost:4444/notes`);
-  //         console.log(response);
-  //         setLoading(false);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     getAllNotes();
-  //   } else {
-  //     naviagte("/login");
-  //   }
-  // }, [isLogin, naviagte]);
+  useEffect(() => {
+    if (userId) {
+      const getAllNotes = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(`http://localhost:4444/notes`, {
+            headers: { 
+              "Content-Type":"application/json",
+              userId: userId },
+          });
+          console.log(response);
+          setMyNotes(response.data.notes);
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getAllNotes();
+    } else {
+      naviagte("/login");
+    }
+  }, [userId, naviagte]);
 
   return (
     <>
@@ -109,7 +133,7 @@ const MyNotes = () => {
               <ul>
                 <li
                   className={activeLink === "all" ? styles.active_link : ""}
-                  onClick={() => handleItemClick("all")}
+                  onClick={() => handlePriorityFunction("all")}
                 >
                   <FontAwesomeIcon icon={faClipboard} /> All Notes
                 </li>
@@ -186,12 +210,12 @@ const MyNotes = () => {
           </Col>
           <Col sm={8} lg={9} xl={10}>
             <Row className={styles.note_container}>
-              {notes.map((note) => (
+              {myNotes.map((note) => (
                 <NoteBox
                   key={note.id}
                   id={note.id}
                   title={note.title}
-                  desc={note.desc}
+                  desc={note.body}
                   priority={note.priority}
                 />
               ))}

@@ -10,12 +10,13 @@ const NoteForm = ({
   setSuccessResponse,
   setShowResponse,
 }) => {
+  const userId = localStorage.getItem("userID");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
     priority: "low",
   });
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,8 +25,14 @@ const NoteForm = ({
 
   const sendFormData = async (data) => {
     setLoading(true);
+    console.log(userId)
     try {
-      const response = await axios.post(`http://localhost:4444/notes`, data);
+      const response = await axios.post(`http://localhost:4444/notes`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          userId: userId,
+        },
+      });
       console.log(response);
       setLoading(false);
       setResponseMessage({
