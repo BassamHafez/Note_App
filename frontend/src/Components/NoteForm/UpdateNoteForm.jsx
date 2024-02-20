@@ -32,13 +32,16 @@ const UpdateNoteForm = ({
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:4444/notes/:${id}`,
+        `http://localhost:4444/notes`,
         data,
         {
           headers: {
             "Content-Type": "application/json",
             userId: userId,
           },
+          params:{
+            id:id
+          }
         }
       );
       console.log(response);

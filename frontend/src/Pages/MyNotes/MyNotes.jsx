@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./MyNotes.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard, faClock } from "@fortawesome/free-regular-svg-icons";
@@ -12,10 +12,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import NoteBox from "../../Components/UI/NoteBox";
 import AddNoteModal from "../../Components/UI/AddNoteModal";
-import axios from "axios";
 import ConfirmModal from "../../Components/UI/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../Components/UI/LoadingPage";
+import handlePriorityFunction from "../../Util/Http";
+import { myContext } from "../../Context/MyContext";
 
 const MyNotes = () => {
   const [myNotes, setMyNotes] = useState([]);
@@ -25,94 +26,33 @@ const MyNotes = () => {
   const [loading, setLoading] = useState(false);
 
   const userId = localStorage.getItem("userID");
-  const naviagte = useNavigate();
-
-  // const notes = [
-  //   {
-  //     id: "1",
-  //     title: "Clean The Room",
-  //     desc: "clean my room fast within day to prepare for school",
-  //     priority: "medium",
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Meeting With Ammar",
-  //     desc: "discuss the school project with Ammar collecting informations ",
-  //     priority: "low",
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "Finish My Project",
-  //     desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
-  //     priority: "high",
-  //   },
-  //   {
-  //     id: "4",
-  //     title: "Play Football",
-  //     desc: "play football sunday at 11 pm with my friends in the street",
-  //     priority: "medium",
-  //   },
-  // ];
+  const naviagte=useNavigate();
+  const {isDataChanged}=useContext(myContext);
 
   const handleItemClick = (type) => {
     setActiveLink(type);
   };
 
-  const handlePriorityFunction = async (level) => {
-    handleItemClick(level);
-    setLoading(true);
-    if (level === "all") {
-      try {
-        const response = await axios.get(`http://localhost:4444/notes`, {
-          headers: { 
-            "Content-Type":"application/json",
-            userId: userId },
-        });
-        setMyNotes(response.data.notes);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        const response = await axios.get(
-          `http://localhost:4444/notes?priority=${level}`,
-          {
-            headers: { 
-              "Content-Type":"application/json",
-              userId: userId },
-          }
-        );
-        setMyNotes(response.data.notes);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
+  const callNotes=async(level)=>{
+    if(userId){
+      handleItemClick(level);
+      setLoading(true)
+      let notes=[];
+     notes= await handlePriorityFunction(level,userId);
+    if(notes){
+      setMyNotes(notes)
+      setLoading(false)
     }
-  };
+    }
+    else{
+      naviagte("/login")
+    }
+
+  }
 
   useEffect(() => {
-    if (userId) {
-      const getAllNotes = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get(`http://localhost:4444/notes`, {
-            headers: { 
-              "Content-Type":"application/json",
-              userId: userId },
-          });
-          console.log(response);
-          setMyNotes(response.data.notes);
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getAllNotes();
-    } else {
-      naviagte("/login");
-    }
-  }, [userId, naviagte]);
+  callNotes("all");
+  }, [isDataChanged]);
 
   return (
     <>
@@ -133,7 +73,7 @@ const MyNotes = () => {
               <ul>
                 <li
                   className={activeLink === "all" ? styles.active_link : ""}
-                  onClick={() => handlePriorityFunction("all")}
+                  onClick={() => callNotes("all")}
                 >
                   <FontAwesomeIcon icon={faClipboard} /> All Notes
                 </li>
@@ -169,7 +109,7 @@ const MyNotes = () => {
                 <ul>
                   <li
                     className={activeLink === "low" ? styles.active_link : ""}
-                    onClick={() => handlePriorityFunction("low")}
+                    onClick={() => callNotes("low")}
                   >
                     <FontAwesomeIcon
                       icon={faCircle}
@@ -179,7 +119,7 @@ const MyNotes = () => {
                   </li>
                   <li
                     className={activeLink === "med" ? styles.active_link : ""}
-                    onClick={() => handlePriorityFunction("med")}
+                    onClick={() => callNotes("med")}
                   >
                     <FontAwesomeIcon
                       icon={faCircle}
@@ -189,7 +129,7 @@ const MyNotes = () => {
                   </li>
                   <li
                     className={activeLink === "high" ? styles.active_link : ""}
-                    onClick={() => handlePriorityFunction("high")}
+                    onClick={() => callNotes("high")}
                   >
                     <FontAwesomeIcon
                       icon={faCircle}
@@ -223,7 +163,10 @@ const MyNotes = () => {
           </Col>
         </Row>
       </div>
-      <AddNoteModal show={modalShow} onHide={() => setModalShow(false)} />
+      <AddNoteModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
       <ConfirmModal
         show={confirmShow}
         onHide={() => setConfirmShow(false)}

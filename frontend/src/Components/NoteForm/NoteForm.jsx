@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./NoteForm.module.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { myContext } from "../../Context/MyContext";
 
 const NoteForm = ({
   onHide,
@@ -11,10 +12,11 @@ const NoteForm = ({
   setShowResponse,
 }) => {
   const userId = localStorage.getItem("userID");
+  const {toggleDataChanged}=useContext(myContext);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
-    desc: "",
+    body: "",
     priority: "low",
   });
 
@@ -41,6 +43,7 @@ const NoteForm = ({
       });
       setSuccessResponse(true);
       setShowResponse(true);
+      toggleDataChanged()
       onHide();
     } catch (error) {
       console.error(error);
@@ -68,16 +71,14 @@ const NoteForm = ({
             name="title"
             id="title"
             placeholder="title"
-            value={formData.title}
             onChange={handleChange}
           />
         </div>
         <div className={styles.input_field}>
           <textarea
-            name="desc"
+            name="body"
             id="desc"
             placeholder="description"
-            value={formData.desc}
             onChange={handleChange}
             rows={5}
           />

@@ -17,7 +17,7 @@ const NoteBox = ({ title, desc, priority, id }) => {
     case "low":
       circleColor = styles.low;
       break;
-    case "medium":
+    case "med":
       circleColor = styles.medium;
       break;
     case "high":

@@ -20,16 +20,21 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
     localStorage.removeItem("userId");
     navigate("/login");
   };
+
   const deleteNote = async () => {
     if (userId) {
       try {
+        console.log(id)
         const response = await axios.delete(
-          `http://localhost:4444/notes/:${id}`,
+          `http://localhost:4444/notes`,
           {
             headers: {
               "Content-Type": "application/json",
               userId: userId,
             },
+            params:{
+              id:id
+            }
           }
         );
         console.log(response);
