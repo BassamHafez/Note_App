@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./NoteForm.module.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { myContext } from "../../Context/MyContext";
 
 const UpdateNoteForm = ({
   currenTitle,
@@ -16,7 +17,7 @@ const UpdateNoteForm = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userID");
-
+  const {toggleDataChanged}=useContext(myContext);
   const [formData, setFormData] = useState({
     title: currenTitle,
     body: currentDesc,
@@ -32,16 +33,13 @@ const UpdateNoteForm = ({
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:4444/notes`,
+        `http://localhost:4444/notes/${id}`,
         data,
         {
           headers: {
             "Content-Type": "application/json",
             userId: userId,
           },
-          params:{
-            id:id
-          }
         }
       );
       console.log(response);
@@ -52,6 +50,7 @@ const UpdateNoteForm = ({
       });
       setSuccessResponse(true);
       setShowResponse(true);
+      toggleDataChanged()
       onHide();
     } catch (error) {
       console.error(error);

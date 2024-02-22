@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./AddNoteModal.module.css";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FloatingResponse from "./FloatingResponse";
+import { myContext } from "../../Context/MyContext";
 
 const ConfirmModal = ({ show, onHide, msg, type, id }) => {
   const [showResponse, setShowResponse] = useState(false);
@@ -15,6 +16,7 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
 
   const navigate = useNavigate();
   const userId = localStorage.getItem("userID");
+  const {toggleDataChanged}=useContext(myContext);
 
   const logoutHandler = async () => {
     localStorage.removeItem("userId");
@@ -26,15 +28,12 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
       try {
         console.log(id)
         const response = await axios.delete(
-          `http://localhost:4444/notes`,
+          `http://localhost:4444/notes/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
               userId: userId,
             },
-            params:{
-              id:id
-            }
           }
         );
         console.log(response);
@@ -44,6 +43,7 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
         });
         setSuccessResponse(true);
         setShowResponse(true);
+        toggleDataChanged()
         onHide();
       } catch (error) {
         setResponseMessage({
