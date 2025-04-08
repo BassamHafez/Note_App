@@ -54,7 +54,10 @@ input,textarea{
 .main_color{
   color:var(--main_color) !important
 }
-
+.bg_color{
+  color: var(--bg_color);
+  color: white;
+}
 .modal-content{
   background-color: transparent !important;
   border: 1px solid rgb(1, 26, 58) !important;

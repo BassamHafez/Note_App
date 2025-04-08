@@ -5,6 +5,7 @@ import MyNotes from "./Pages/MyNotes/MyNotes";
 import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
 import NotFound from "./Components/Error/NotFound";
+import Test from "./Pages/test/Test";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         { index: true, element: <MyNotes /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
+        { path: "test", element: <Test /> },
         { path: "*", element: <NotFound /> },
       ],
     },

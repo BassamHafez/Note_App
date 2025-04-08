@@ -1,13 +1,13 @@
 .container_all{
     min-height: 100vh;
-    width: 100vw;
+    min-width: 100vw;
     background-color: var(--bg_color);
     padding-inline: 1.25rem;
     letter-spacing: 0.0313rem;
 }
 .landing{
     min-width: 90%;
-    min-height:98%
+    min-height:98%;
 }
 .left_container{
     border-right: 0.0625rem solid var(--border_color);
@@ -90,7 +90,7 @@
 }
 
 .img_container_register{
-    width: 31.25rem;
+    width: 500px;
 }
 .caption{
     font-size: 14px;

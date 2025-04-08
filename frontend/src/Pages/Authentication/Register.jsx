@@ -25,7 +25,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,18 +51,18 @@ const Register = () => {
     return emailRegex.test(email);
   };
 
-  const sendFormData = async(data) => {
-    setLoading(true)
+  const sendFormData = async (data) => {
+    setLoading(true);
     try {
       const response = await axios.post(`http://localhost:4444/signup`, data);
       console.log(response);
-      if(response.status===200){
-        navigate("/login")
+      if (response.status === 200) {
+        navigate("/login");
       }
     } catch (error) {
       console.error(error);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   const handleSubmit = (e) => {
@@ -107,7 +107,7 @@ const Register = () => {
       <Row className={styles.landing}>
         <Col sm={6} className={styles.left_container}>
           <div className={styles.img_container_register}>
-            <img src={register_img} alt="register img" />
+            <img src={register_img} className="w-100" alt="register img" />
           </div>
         </Col>
 
@@ -159,7 +159,12 @@ const Register = () => {
               </span>
             </div>
             <div className="w-100 text-end my-1">
-              <span className={styles.caption}>Already have an account? <Link to={"/login"} className="main_color">sign in</Link></span>
+              <span className={styles.caption}>
+                Already have an account?{" "}
+                <Link to={"/login"} className="main_color">
+                  sign in
+                </Link>
+              </span>
             </div>
             <div className="text-center mt-4">
               <button
@@ -169,7 +174,7 @@ const Register = () => {
                   btnControl ? styles.submit_btn_diabled : ""
                 }`}
               >
-                {loading ? <FontAwesomeIcon icon={faSpinner} /> : 'Register'}
+                {loading ? <FontAwesomeIcon icon={faSpinner} /> : "Register"}
               </button>
             </div>
           </form>
