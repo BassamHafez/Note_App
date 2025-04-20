@@ -54,7 +54,7 @@ const Register = () => {
   const sendFormData = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post(`http://localhost:4444/signup`, data);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_API}signup`, data);
       console.log(response);
       if (response.status === 200) {
         navigate("/login");

@@ -28,7 +28,7 @@ const ConfirmModal = ({ show, onHide, msg, type, id }) => {
       try {
         console.log(id)
         const response = await axios.delete(
-          `http://localhost:4444/notes/${id}`,
+          `${process.env.REACT_APP_BACKEND_API}notes/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

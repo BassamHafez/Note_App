@@ -56,7 +56,7 @@ const Login = () => {
     setLoading(true)
     try {
       console.log(data)
-      const response = await axios.post(`http://localhost:4444/login`, data);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_API}login`, data);
       console.log(response);
       if(response.data.message==="Logged in"){
         localStorage.setItem("userID",response.data.userId);

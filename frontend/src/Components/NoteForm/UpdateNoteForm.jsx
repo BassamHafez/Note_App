@@ -33,7 +33,7 @@ const UpdateNoteForm = ({
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:4444/notes/${id}`,
+        `${process.env.REACT_APP_BACKEND_API}notes/${id}`,
         data,
         {
           headers: {

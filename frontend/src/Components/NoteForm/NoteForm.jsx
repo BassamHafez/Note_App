@@ -29,7 +29,7 @@ const NoteForm = ({
     setLoading(true);
     console.log(userId)
     try {
-      const response = await axios.post(`http://localhost:4444/notes`, data, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_API}notes`, data, {
         headers: {
           "Content-Type": "application/json",
           userId: userId,
